@@ -1,0 +1,6 @@
+# IntelliJ
+out/
+.idea/
+
+# PNG Files
+*.png
