@@ -1,6 +1,7 @@
 package models
 
 import png.constants.ColorType
+import java.io.ByteArrayOutputStream
 
 data class PNGImage(var width: Int = 0,
                     var height: Int = 0,
@@ -9,7 +10,8 @@ data class PNGImage(var width: Int = 0,
                     var compressionMethod: Int = 0,
                     var filterMethod: Int = 0,
                     var interlaceMethod: Int = 0,
-                    val dataChunks: ArrayList<Chunk> = ArrayList(),
+                    val rawImageData: ByteArrayOutputStream = ByteArrayOutputStream(),
+                    var computedImageData: ByteArray = ByteArray(32),
                     var alpha: Boolean = false,
                     var palette: Palette? = null)
 

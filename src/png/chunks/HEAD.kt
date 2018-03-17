@@ -1,6 +1,6 @@
-package png
+package png.chunks
 
-class PNGHeader {
+class HEAD {
     companion object {
         fun checkHeader(byteArray: ByteArray) : Boolean {
             val pngHeader = ByteArray(8, {intArrayOf(137, 80, 78, 71, 13, 10, 26, 10)[it].toByte()})

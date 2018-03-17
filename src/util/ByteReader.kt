@@ -14,8 +14,8 @@ class ByteReader {
             return Files.readAllBytes(File(file).toPath())
         }
 
-        fun readBytesToInt(size: Int, bytes: ByteArray, from: Int = ChunkReader.currentIndex): Int {
-            ChunkReader.currentIndex += size
+        fun readBytesToInt(size: Int, bytes: ByteArray, from: Int = ChunkReader.currentIndex, increaseIndex: Boolean = true): Int {
+            if(increaseIndex) ChunkReader.currentIndex += size
             val chunk =  ByteBuffer.wrap(slice(from, from + size, bytes))
             return BigInteger(chunk.array()).toInt()
         }

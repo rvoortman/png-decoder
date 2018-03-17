@@ -6,16 +6,16 @@ import models.PNGImage
 import png.chunks.IDAT
 import png.chunks.IHDR
 import png.chunks.PLTE
+import png.chunks.HEAD
 import util.ByteReader
 import java.util.zip.CRC32
-import java.util.zip.Deflater
 
 class ChunkReader {
     companion object {
         var currentIndex = 8
         var firstHeader = true
         fun readPng(bytes: ByteArray): PNGImage {
-            if(!PNGHeader.checkHeader(bytes)) {
+            if(!HEAD.checkHeader(bytes)) {
                 throw InvalidHeaderException("Can't read file, invalid header.")
             }
             val image = PNGImage()
@@ -26,6 +26,8 @@ class ChunkReader {
             if(currentIndex + 4 != bytes.size) {
                 throw CorruptedPNGException("Unexpected end of file!")
             }
+
+            ImageData.convertRawDataToImageData(image)
 
             return image
         }
