@@ -1,4 +1,5 @@
 # PNG Decoder Written in Kotlin
+![Travis build Status](https://travis-ci.org/rvoortman/png-decoder.svg?branch=master)
 A simple PNG decoder written in Kotlin. This started as a small stand alone project to learn about the PNG format and a chance for me to better understand Kotlin. I'm planning to make this a fully functional decoder that can be used in any project you like.
 
 The rendering of the image is god awful slow at the moment, but I'm certain that there are ways to fix this :)
