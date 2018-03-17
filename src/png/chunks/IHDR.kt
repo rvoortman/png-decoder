@@ -20,13 +20,13 @@ Interlace method:   1 byte
 class IHDR {
     companion object {
         fun read(bytes: ByteArray, image: PNGImage) {
-            image.width = ByteReader.readBytesToInt(4, bytes, ChunkReader.currentIndex)
-            image.height = ByteReader.readBytesToInt(4, bytes, ChunkReader.currentIndex)
-            image.bitDepth = getBitDepth(ByteReader.readBytesToInt(1, bytes, ChunkReader.currentIndex))
-            image.colorType = getColorType(ByteReader.readBytesToInt(1, bytes, ChunkReader.currentIndex), image)
-            image.compressionMethod = ByteReader.readBytesToInt(1, bytes, ChunkReader.currentIndex)
-            image.filterMethod = ByteReader.readBytesToInt(1, bytes, ChunkReader.currentIndex)
-            image.interlaceMethod = ByteReader.readBytesToInt(1, bytes, ChunkReader.currentIndex)
+            image.width = ByteReader.readBytesToInt(4, bytes)
+            image.height = ByteReader.readBytesToInt(4, bytes)
+            image.bitDepth = getBitDepth(ByteReader.readBytesToInt(1, bytes))
+            image.colorType = getColorType(ByteReader.readBytesToInt(1, bytes), image)
+            image.compressionMethod = ByteReader.readBytesToInt(1, bytes)
+            image.filterMethod = ByteReader.readBytesToInt(1, bytes)
+            image.interlaceMethod = ByteReader.readBytesToInt(1, bytes)
         }
 
         private fun getBitDepth(rawBitDepth: Int): Int {

@@ -10,7 +10,8 @@ data class PNGImage(var width: Int = 0,
                     var filterMethod: Int = 0,
                     var interlaceMethod: Int = 0,
                     val dataChunks: ArrayList<Chunk> = ArrayList(),
-                    var alpha: Boolean = false)
+                    var alpha: Boolean = false,
+                    var palette: Palette? = null)
 
 //png.setWidth(             readUInt32(chunk, 0));
 //png.setHeight(            readUInt32(chunk, 4));
