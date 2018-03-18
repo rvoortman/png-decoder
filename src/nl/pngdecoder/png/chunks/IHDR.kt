@@ -1,10 +1,9 @@
 package png.chunks
 
-import exceptions.CorruptedPNGException
-import models.PNGImage
-import png.ChunkReader
-import png.constants.ColorType
-import util.ByteReader
+import nl.pngdecoder.exceptions.CorruptedPNGException
+import nl.pngdecoder.png.models.PNGImage
+import nl.pngdecoder.constants.ColorType
+import nl.pngdecoder.util.ByteReader
 
 /**
  * Header Chunk
@@ -42,21 +41,16 @@ class IHDR {
                 0 -> return ColorType.GrayScale
                 2 -> if (image.bitDepth % 8 == 0) return ColorType.RGB
                 3 -> if (image.bitDepth != 16) return ColorType.Palette
-                4 -> {
-                    if (image.bitDepth % 8 == 0) {
+                4 -> if (image.bitDepth % 8 == 0) {
                         image.alpha = true
                         return ColorType.GrayScale
                     }
-                }
-                6 -> {
-                    if (image.bitDepth % 8 == 0) {
+                6 -> if (image.bitDepth % 8 == 0) {
                         image.alpha = true
                         return ColorType.RGB
                     }
-                }
             }
             throw CorruptedPNGException("Invalid color type")
         }
     }
 }
-

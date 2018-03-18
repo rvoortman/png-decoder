@@ -1,4 +1,4 @@
-package png.constants
+package nl.pngdecoder.constants
 
 class ColorType {
     companion object {

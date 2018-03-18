@@ -1,15 +1,9 @@
-package png
+package nl.pngdecoder.png
 
-import exceptions.CorruptedPNGException
-import exceptions.InvalidHeaderException
-import exceptions.UnsupportedFeatureException
-import models.PNGImage
 import png.chunks.IDAT
 import png.chunks.IHDR
 import png.chunks.PLTE
 import png.chunks.HEAD
-import png.constants.ColorType
-import util.ByteReader
 import java.awt.image.DataBufferByte
 import java.awt.image.Raster
 import java.awt.image.WritableRaster
@@ -17,12 +11,20 @@ import java.util.zip.CRC32
 import java.awt.image.IndexColorModel
 import java.awt.image.ColorModel
 import java.awt.image.BufferedImage
+import nl.pngdecoder.constants.ColorType
+import nl.pngdecoder.exceptions.CorruptedPNGException
+import nl.pngdecoder.exceptions.InvalidHeaderException
+import nl.pngdecoder.exceptions.UnsupportedFeatureException
+import nl.pngdecoder.png.models.PNGImage
+import nl.pngdecoder.util.ByteReader
 
-class ChunkReader {
+class PNGReader {
     companion object {
         var currentIndex = 8
         var firstHeader = true
-        fun readPng(bytes: ByteArray): BufferedImage {
+        fun readPng(filename: String): BufferedImage {
+            val bytes = ByteReader.readFileIntoBuffer(filename)
+
             if(!HEAD.checkHeader(bytes)) {
                 throw InvalidHeaderException("Can't read file, invalid header.")
             }

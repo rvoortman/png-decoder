@@ -1,10 +1,10 @@
 package png.chunks
 
-import exceptions.CorruptedPNGException
-import models.PNGImage
-import models.Palette
-import png.constants.ColorType
-import util.ByteReader
+import nl.pngdecoder.exceptions.CorruptedPNGException
+import nl.pngdecoder.png.models.PNGImage
+import nl.pngdecoder.png.models.Palette
+import nl.pngdecoder.constants.ColorType
+import nl.pngdecoder.util.ByteReader
 import kotlin.math.pow
 
 /**
