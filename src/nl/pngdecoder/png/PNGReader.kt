@@ -18,9 +18,13 @@ import nl.pngdecoder.exceptions.UnsupportedFeatureException
 import nl.pngdecoder.png.models.PNGImage
 import nl.pngdecoder.util.ByteReader
 
+/**
+ * The main class
+ * Use PNGReader.readPng() to get an BufferedImage, which you can render however you like.
+ */
 class PNGReader {
     companion object {
-        var currentIndex = 8
+        var currentIndex = 0
         var firstHeader = true
         fun readPng(filename: String): BufferedImage {
             val bytes = ByteReader.readFileIntoBuffer(filename)
@@ -57,7 +61,7 @@ class PNGReader {
             val bitsPerPixel = image.bitDepth
 
             if (colorType == 3) {
-                val paletteData = image.palette!!.palette
+                val paletteData = image.palette!!.palette // Palette must not be nil!
                 val paletteLength = paletteData.size / 3
                 return IndexColorModel(bitsPerPixel, paletteLength,
                         paletteData, 0, false)

@@ -8,13 +8,13 @@ import nl.pngdecoder.util.ByteReader
 /**
  * Header Chunk
  *
- *    Width:              4 bytes
-Height:             4 bytes
-Bit depth:          1 byte
-Color type:         1 byte
-Compression method: 1 byte
-Filter method:      1 byte
-Interlace method:   1 byte
+ * Width:              4 bytes
+ * Height:             4 bytes
+ * Bit depth:          1 byte
+ * Color type:         1 byte
+ * Compression method: 1 byte
+ * Filter method:      1 byte
+ * Interlace method:   1 byte
  */
 class IHDR {
     companion object {

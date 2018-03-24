@@ -34,7 +34,7 @@ task wrapper(type: Wrapper) {
 detekt {
     version = "1.0.0.RC6-4"
     profile("main") {
-        input = "$projectDir/src/kotlin"
+        input = "$projectDir/src/nl/pngdecoder"
         config = "$projectDir/detekt.yml"
         filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
     }

@@ -3,6 +3,9 @@ package nl.pngdecoder.png.models
 import java.io.ByteArrayOutputStream
 import nl.pngdecoder.constants.ColorType
 
+/**
+ * Class that holds all the meta-information, as well as the image data.
+ */
 data class PNGImage(var width: Int = 0,
                     var height: Int = 0,
                     var bitDepth: Int = 0,
