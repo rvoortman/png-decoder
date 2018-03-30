@@ -1,5 +1,8 @@
-package png.constants
+package nl.pngdecoder.constants
 
+/**
+ * This class represents the different PNG Colormodes.
+ */
 class ColorType {
     companion object {
         const val GrayScale = 0

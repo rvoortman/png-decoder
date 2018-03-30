@@ -1,15 +1,9 @@
-package png
+package nl.pngdecoder.png
 
-import exceptions.CorruptedPNGException
-import exceptions.InvalidHeaderException
-import exceptions.UnsupportedFeatureException
-import models.PNGImage
 import png.chunks.IDAT
 import png.chunks.IHDR
 import png.chunks.PLTE
 import png.chunks.HEAD
-import png.constants.ColorType
-import util.ByteReader
 import java.awt.image.DataBufferByte
 import java.awt.image.Raster
 import java.awt.image.WritableRaster
@@ -17,12 +11,24 @@ import java.util.zip.CRC32
 import java.awt.image.IndexColorModel
 import java.awt.image.ColorModel
 import java.awt.image.BufferedImage
+import nl.pngdecoder.constants.ColorType
+import nl.pngdecoder.exceptions.CorruptedPNGException
+import nl.pngdecoder.exceptions.InvalidHeaderException
+import nl.pngdecoder.exceptions.UnsupportedFeatureException
+import nl.pngdecoder.png.models.PNGImage
+import nl.pngdecoder.util.ByteReader
 
-class ChunkReader {
+/**
+ * The main class
+ * Use PNGReader.readPng() to get an BufferedImage, which you can render however you like.
+ */
+class PNGReader {
     companion object {
-        var currentIndex = 8
+        var currentIndex = 0
         var firstHeader = true
-        fun readPng(bytes: ByteArray): BufferedImage {
+        fun readPng(filename: String): PNGImage {
+            val bytes = ByteReader.readFileIntoBuffer(filename)
+
             if(!HEAD.checkHeader(bytes)) {
                 throw InvalidHeaderException("Can't read file, invalid header.")
             }
@@ -35,35 +41,8 @@ class ChunkReader {
                 throw CorruptedPNGException("Unexpected end of file!")
             }
 
-            ImageData.convertRawDataToImageData(image)
-            val raster = getRaster(image)
-            val colorModel = getColorModel(image)
-            print("Buffering image...")
-            return BufferedImage(colorModel, raster, false, null)
+            return image
         }
-
-        private fun getRaster(image: PNGImage): WritableRaster {
-            if (image.colorType == ColorType.Palette) {
-                val dataBuffer = DataBufferByte(image.computedImageData, image.computedImageData.size)
-                return Raster.createPackedRaster(dataBuffer, image.width, image.height, image.bitDepth, null)
-            }
-            throw UnsupportedFeatureException("This colortype is not yet supported.")
-        }
-
-        private fun getColorModel(image: PNGImage): ColorModel {
-            val colorType = image.rawColorType
-            val bitsPerPixel = image.bitDepth
-
-            if (colorType == 3) {
-                val paletteData = image.palette!!.palette
-                val paletteLength = paletteData.size / 3
-                return IndexColorModel(bitsPerPixel, paletteLength,
-                        paletteData, 0, false)
-            }
-
-            throw UnsupportedFeatureException("This colortype is not yet supported")
-        }
-
 
         private fun readChunk(bytes: ByteArray, image: PNGImage) {
             val length = ByteReader.readBytesToInt(4, bytes, currentIndex)
