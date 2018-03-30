@@ -1,34 +1,32 @@
 package nl.pngdecoder
 
+import nl.pngdecoder.png.ImageData
 import java.awt.Graphics
-import java.awt.image.BufferedImage
 import javax.swing.JFrame
 import nl.pngdecoder.png.PNGReader
 import javax.swing.WindowConstants
+import javax.swing.JPanel
 
 fun main(args: Array<String>) {
+    val frame = buildFrame()
+
     val image = PNGReader.readPng(args.first())
+    val bufferedImage = ImageData.toBufferedImage(image)
 
-    renderImage(image)
-}
-
-/**
- * This method is only used for testing; please do not actually use this.
- */
-private fun renderImage(image: BufferedImage){
-    val f = object : JFrame() {
-        override fun paint(g: Graphics) {
-            val insets = insets
-            print("Rendering image...")
-            g.drawImage(image, insets.left, insets.top, null)
+    val pane = object : JPanel() {
+        override fun paintComponent(g: Graphics) {
+            super.paintComponent(g)
+            g.drawImage(bufferedImage, 0, 0, null)
         }
     }
 
-    f.isVisible = true
-    val insets = f.insets
-    f.setSize(image.width + insets.left + insets.right, image
-            .height
-            + insets.top + insets.bottom)
+    frame.add(pane)
+}
 
-    f.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
+private fun buildFrame(): JFrame {
+    val frame = JFrame()
+    frame.defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
+    frame.setSize(200, 200)
+    frame.isVisible = true
+    return frame
 }

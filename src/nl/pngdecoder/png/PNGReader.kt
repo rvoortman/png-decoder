@@ -26,7 +26,7 @@ class PNGReader {
     companion object {
         var currentIndex = 0
         var firstHeader = true
-        fun readPng(filename: String): BufferedImage {
+        fun readPng(filename: String): PNGImage {
             val bytes = ByteReader.readFileIntoBuffer(filename)
 
             if(!HEAD.checkHeader(bytes)) {
@@ -41,35 +41,8 @@ class PNGReader {
                 throw CorruptedPNGException("Unexpected end of file!")
             }
 
-            ImageData.convertRawDataToImageData(image)
-            val raster = getRaster(image)
-            val colorModel = getColorModel(image)
-            print("Buffering image...")
-            return BufferedImage(colorModel, raster, false, null)
+            return image
         }
-
-        private fun getRaster(image: PNGImage): WritableRaster {
-            if (image.colorType == ColorType.Palette) {
-                val dataBuffer = DataBufferByte(image.computedImageData, image.computedImageData.size)
-                return Raster.createPackedRaster(dataBuffer, image.width, image.height, image.bitDepth, null)
-            }
-            throw UnsupportedFeatureException("This colortype is not yet supported.")
-        }
-
-        private fun getColorModel(image: PNGImage): ColorModel {
-            val colorType = image.rawColorType
-            val bitsPerPixel = image.bitDepth
-
-            if (colorType == 3) {
-                val paletteData = image.palette!!.palette // Palette must not be nil!
-                val paletteLength = paletteData.size / 3
-                return IndexColorModel(bitsPerPixel, paletteLength,
-                        paletteData, 0, false)
-            }
-
-            throw UnsupportedFeatureException("This colortype is not yet supported")
-        }
-
 
         private fun readChunk(bytes: ByteArray, image: PNGImage) {
             val length = ByteReader.readBytesToInt(4, bytes, currentIndex)
